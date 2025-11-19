@@ -425,7 +425,7 @@ static int aml_check_bdaddr(struct hci_dev *hdev)
 
 	if (!bacmp(&paddr->bdaddr, AML_BDADDR_DEFAULT)) {
 		bt_dev_info(hdev, "amlbt using default bdaddr (%pM)", &paddr->bdaddr);
-		set_bit(HCI_QUIRK_INVALID_BDADDR, &hdev->quirks);
+		set_bit(HCI_QUIRK_INVALID_BDADDR, &hdev->quirk_flags);
 	}
 
 exit:

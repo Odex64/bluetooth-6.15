@@ -1892,7 +1892,7 @@ static int qca_setup(struct hci_uart *hu)
 	/* Enable controller to do both LE scan and BR/EDR inquiry
 	 * simultaneously.
 	 */
-	set_bit(HCI_QUIRK_SIMULTANEOUS_DISCOVERY, &hdev->quirks);
+	set_bit(HCI_QUIRK_SIMULTANEOUS_DISCOVERY, &hdev->quirk_flags);
 
 	switch (soc_type) {
 	case QCA_QCA2066:
@@ -1944,7 +1944,7 @@ retry:
 	case QCA_WCN7850:
 		qcadev = serdev_device_get_drvdata(hu->serdev);
 		if (qcadev->bdaddr_property_broken)
-			set_bit(HCI_QUIRK_BDADDR_PROPERTY_BROKEN, &hdev->quirks);
+			set_bit(HCI_QUIRK_BDADDR_PROPERTY_BROKEN, &hdev->quirk_flags);
 
 		hci_set_aosp_capable(hdev);
 
@@ -2480,7 +2480,7 @@ static int qca_serdev_probe(struct serdev_device *serdev)
 	hdev = qcadev->serdev_hu.hdev;
 
 	if (power_ctrl_enabled) {
-		set_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks);
+		set_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirk_flags);
 		hdev->shutdown = qca_power_off;
 	}
 
@@ -2490,10 +2490,10 @@ static int qca_serdev_probe(struct serdev_device *serdev)
 		 */
 		if (data->capabilities & QCA_CAP_WIDEBAND_SPEECH)
 			set_bit(HCI_QUIRK_WIDEBAND_SPEECH_SUPPORTED,
-				&hdev->quirks);
+				&hdev->quirk_flags);
 
 		if (!(data->capabilities & QCA_CAP_VALID_LE_STATES))
-			set_bit(HCI_QUIRK_BROKEN_LE_STATES, &hdev->quirks);
+			set_bit(HCI_QUIRK_BROKEN_LE_STATES, &hdev->quirk_flags);
 	}
 
 	return 0;
@@ -2543,7 +2543,7 @@ static void qca_serdev_shutdown(struct device *dev)
 		 * invoked and the SOC is already in the initial state, so
 		 * don't also need to send the VSC.
 		 */
-		if (test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirks) ||
+		if (test_bit(HCI_QUIRK_NON_PERSISTENT_SETUP, &hdev->quirk_flags) ||
 		    hci_dev_test_flag(hdev, HCI_SETUP))
 			return;
 
