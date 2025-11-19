@@ -1,4 +1,4 @@
-Since kernel 6.15 Linux has removed the `quirks` struct in favor to `quirk_flags` prior to my knowledge.
+Since kernel 6.15 Linux has removed the `quirks` struct in favor to `quirk_flags` prior to my knowledge.  
 This is a fix for bluetooth adapters drivers when running newer kernel versions.
 
 Remove the previous module if already installed:
